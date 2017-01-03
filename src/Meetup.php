@@ -8,7 +8,7 @@ use PDO;
 class Meetup
 {
     /**
-     * @var mixed
+     * @var array
      */
     private $config;
 
@@ -26,7 +26,11 @@ class Meetup
     {
         $this->config = require dirname(__DIR__).'/config.php';
         $this->guzzle = new Client();
-        $this->db = new PDO("mysql:host=127.0.0.1;dbname=meetup", 'root', 'root');
+        $this->db = new PDO(
+            "mysql:host={$this->config['dbHost']};dbname={$this->config['dbName']}",
+            $this->config['dbUser'],
+            $this->config['dbPass']
+        );
         $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $this->db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
 
