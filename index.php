@@ -16,6 +16,7 @@ $reports = [
     'recent-most-yes-members' => 'Most Yes RSVPs (Last 3 Months)',
     'most-no-members' => 'Most No RSVPs',
     'most-no-shows' => 'Most No-Shows',
+    'payments' => 'Fee Contributors',
 ];
 
 ?>
@@ -88,6 +89,44 @@ switch ($report) {
         <?php
         $members = $reporter->getMostNoShows();
         $displayer->showMembers($members);
+        break;
+
+    case 'payments':
+        ?>
+        <h2>Members Who Have Contributed To Fees</h2>
+        <?php
+        $members = $reporter->getFeeContributors();
+        $payments = new \Meetup\MemberPayments($meetup->db);
+        ?>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Date</th>
+                <th>Amount</th>
+                <th>Total Contributions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php
+            foreach ($members as $member) {
+                echo '<tr>';
+                    echo '<td><a href="'.$meetup->memberUrl($member).'" target="_blank">';
+                    echo $meetup->memberPhoto($member);
+                    echo $member->name.'</a></td>';
+
+                    echo '<td>'.$member->paidAt.'</td>';
+                    echo '<td>&pound;'.number_format($member->amount, 2).'</td>';
+
+                    $total = $payments->getTotal($member->id);
+                    echo '<td>&pound;'.number_format($total, 2).'</td>';
+                echo '</tr>';
+            }
+            ?>
+            </tbody>
+
+        </table>
+        <?php
         break;
 }
 

@@ -48,4 +48,21 @@ class Meetup
     {
         return 'https://www.meetup.com/'.$this->config['groupUrl'].'/members/'.$member->id;
     }
+
+    public function memberPhoto($member)
+    {
+        $img = null;
+        if ($member->data) {
+            $data = json_decode($member->data);
+            if (!empty($data->photo)) {
+                $img = $data->photo->thumb_link;
+            }
+        }
+
+        if ($img) {
+            return '<img src="'.$img.'" class="user-img"/> ';
+        }
+
+        return '';
+    }
 }

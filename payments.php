@@ -19,20 +19,10 @@ include __DIR__.'/includes/header.php';
         <tbody>
         <?php
         foreach ($members as $member) {
-            $img = '';
-            if ($member->data) {
-                $data = json_decode($member->data);
-                if (!empty($data->photo)) {
-                    $img = $data->photo->thumb_link;
-                }
-            }
-
             echo '<tr data-id="'.$member->id.'">';
-            echo '<td><a href="'.$meetup->memberUrl($member).'" target="_blank">';
-            if ($img) {
-                echo '<img src="'.$img.'" class="user-img"/> ';
-            }
 
+            echo '<td><a href="'.$meetup->memberUrl($member).'" target="_blank">';
+            echo $meetup->memberPhoto($member);
             echo $member->name.'</a></td>';
 
             $total = $payments->getTotal($member->id);

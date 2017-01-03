@@ -173,4 +173,17 @@ class Reporter
 
         return $this->db->query($sql);
     }
+
+    public function getFeeContributors()
+    {
+        $sql = "SELECT 
+            m.*,
+            paidAt,
+            amount           
+            FROM members m
+            JOIN member_payments mp ON mp.memberId = m.id
+            ORDER BY paidAt DESC";
+
+        return $this->db->query($sql);
+    }
 }
