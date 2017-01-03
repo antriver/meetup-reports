@@ -15,4 +15,9 @@
     </style>
 </head>
 <body>
+
+<div class="text-center">
+    <img src="/assets/meetup.png" alt="Meetup" style="width:150px;" />
+</div>
+
 <div class="container">
