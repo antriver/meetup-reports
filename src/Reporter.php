@@ -134,7 +134,7 @@ class Reporter
 
     public function getRecentMostYesMembers()
     {
-        $cutoff = (new Carbon("-4 MONTHS"))->toDateTimeString();
+        $cutoff = (new Carbon("-3 MONTHS"))->toDateTimeString();
 
         $sql = "SELECT 
             {$this->getMemberSelect()}           
