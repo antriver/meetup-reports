@@ -7,6 +7,10 @@
         .container {
             padding: 30px 0;
         }
+        .user-img {
+            width:20px;
+            height:20px;
+        }
     </style>
 </head>
 <body>
