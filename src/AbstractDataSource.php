@@ -43,8 +43,6 @@ abstract class AbstractDataSource
         $this->meetup = $meetup;
     }
 
-    abstract public function clear();
-
     abstract public function update();
 
     protected function request($endpoint, $data = [], $method = 'GET')

@@ -4,16 +4,8 @@ namespace Meetup;
 
 class Rsvps extends AbstractDataSource
 {
-
-    public function clear()
-    {
-        $this->db->exec('DELETE FROM rsvps');
-    }
-
     public function update()
     {
-        $this->clear();
-
         $events = $this->meetup->events->all();
 
         foreach ($events as $event) {

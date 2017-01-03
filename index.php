@@ -1,27 +1,12 @@
 <?php
-use Carbon\Carbon;
-
 require __DIR__.'/vendor/autoload.php';
 $meetup = new \Meetup\Meetup();
 $reporter = new \Meetup\Reporter($meetup, $meetup->db);
 $displayer = new \Meetup\ReportDisplayer($meetup);
 
 $report = !empty($_GET['report']) ? $_GET['report'] : null;
-?>
-<!DOCTYPE html>
-<html>
-<head>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
-    <style type="text/css">
-        .container {
-            padding: 30px;
-        }
-    </style>
-</head>
-<body>
-<div class="container">
 
-<?php
+include __DIR__.'/includes/header.php';
 
 $reports = [
     'popular-meetups' => 'Most Popular Events',
@@ -105,7 +90,5 @@ switch ($report) {
         $displayer->showMembers($members);
         break;
 }
-?>
-</div>
-</body>
-</html>
+
+include __DIR__.'/includes/footer.php';

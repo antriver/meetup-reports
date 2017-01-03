@@ -2,11 +2,18 @@
 
 namespace Meetup;
 
+use PDO;
+
 class Members extends AbstractDataSource
 {
-    public function clear()
+    public function all()
     {
-        $this->db->exec('DELETE FROM members');
+        $query = $this->db->prepare('SELECT * FROM members ORDER BY name ASC');
+        $query->execute();
+
+        $rows = $query->fetchAll(PDO::FETCH_OBJ);
+
+        return $rows;
     }
 
     public function insertMember($data)
@@ -31,8 +38,6 @@ class Members extends AbstractDataSource
 
     public function update()
     {
-        $this->clear();
-
         $page = 40;
         $offset = 0;
         while (true) {

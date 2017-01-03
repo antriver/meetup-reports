@@ -7,11 +7,6 @@ use PDO;
 
 class Events extends AbstractDataSource
 {
-    public function clear()
-    {
-        $this->db->exec('DELETE FROM events');
-    }
-
     public function all()
     {
         $query = $this->db->prepare('SELECT * FROM events ORDER BY created DESC');
@@ -49,8 +44,6 @@ class Events extends AbstractDataSource
 
     public function update()
     {
-        $this->clear();
-
         $page = 40;
         $offset = 0;
 
