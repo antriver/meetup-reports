@@ -30,7 +30,7 @@ include __DIR__.'/includes/header.php';
             }
             echo '</td>';
 
-            echo '<td> 
+            echo '<td style="width: 188px;"> 
                 <a href="#" class="btn btn-primary btn-sm add-payment-btn" data-amount="1">&pound;1</a>
                 <a href="#" class="btn btn-primary btn-sm add-payment-btn" data-amount="2">&pound;2</a>
                 <a href="#" class="btn btn-primary btn-sm add-payment-btn" data-amount="5">&pound;5</a>
