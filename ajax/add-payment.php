@@ -21,7 +21,7 @@ if ($total) {
 }
 
 $response = [
-    'total' => $total
+    'total' => $total,
 ];
 
 header('Content-Type: application/json');

@@ -24,7 +24,7 @@ $(document).on('click', '.add-payment-btn', function (e) {
         function (response) {
             if (response.total) {
                 var $totalCell = $row.find('.total');
-                $totalCell.html('&pound;'+response.total);
+                $totalCell.html('&pound;' + response.total);
             }
         }
     );

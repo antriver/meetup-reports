@@ -8,6 +8,12 @@ $payments = new \Meetup\MemberPayments($meetup->db);
 include __DIR__.'/includes/header.php';
 
 ?>
+    <style type="text/css">
+        .add-payment-btn {
+            padding: 5px 8px;
+            margin-right: -1px;
+        }
+    </style>
     <table class="table table-striped">
         <thead>
         <tr>
@@ -34,10 +40,12 @@ include __DIR__.'/includes/header.php';
             echo '</td>';
 
             echo '<td style="width: 188px;"> 
-                <a href="#" class="btn btn-primary btn-sm add-payment-btn" data-amount="1">&pound;1</a>
-                <a href="#" class="btn btn-primary btn-sm add-payment-btn" data-amount="2">&pound;2</a>
-                <a href="#" class="btn btn-primary btn-sm add-payment-btn" data-amount="5">&pound;5</a>
-                <a href="#" class="btn btn-primary btn-sm add-payment-btn">Other</a>
+                <a href="#" class="btn btn-primary btn-sm add-payment-btn" data-amount="1">1</a>
+                <a href="#" class="btn btn-primary btn-sm add-payment-btn" data-amount="2">2</a>
+                <a href="#" class="btn btn-primary btn-sm add-payment-btn" data-amount="3">3</a>
+                <a href="#" class="btn btn-primary btn-sm add-payment-btn" data-amount="4">4</a>
+                <a href="#" class="btn btn-primary btn-sm add-payment-btn" data-amount="5">5</a>
+                <a href="#" class="btn btn-primary btn-sm add-payment-btn">&gt;</a>
             </td>';
             echo '</tr>';
         }

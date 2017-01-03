@@ -36,7 +36,7 @@ class Events extends AbstractDataSource
 
         $dates = [
             'time',
-            'created'
+            'created',
         ];
 
         return $this->insert('events', $keys, $dates, $data);
@@ -54,7 +54,7 @@ class Events extends AbstractDataSource
                     'page' => $page,
                     'offset' => $offset,
                     'group_urlname' => $this->config['groupUrl'],
-                    'status' => 'upcoming,past,proposed,suggested,cancelled,draft'
+                    'status' => 'upcoming,past,proposed,suggested,cancelled,draft',
                 ]
             );
 

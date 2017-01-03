@@ -31,10 +31,12 @@ class MemberPayments
     public function addPayment($memberId, $amount)
     {
         $query = $this->db->prepare('INSERT INTO member_payments (memberId, amount, paidAt) VALUES (?, ?, ?)');
-        $query->execute([
-            $memberId,
-            $amount,
-            (new Carbon())->toDateTimeString()
-        ]);
+        $query->execute(
+            [
+                $memberId,
+                $amount,
+                (new Carbon())->toDateTimeString(),
+            ]
+        );
     }
 }

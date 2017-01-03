@@ -38,7 +38,7 @@ class Rsvps extends AbstractDataSource
 
         $dates = [
             'created',
-            'updated'
+            'updated',
         ];
 
         $data->memberId = $data->member->id;

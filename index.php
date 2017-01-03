@@ -20,15 +20,15 @@ $reports = [
 ];
 
 ?>
-<ul class="nav nav-pills">
-    <?php
-    foreach ($reports as $key => $name) {
-        echo '<li role="presentation" '.($report === $key ? 'class="active"' : '').'>';
-            echo '<a href="/?report=' . $key . '">'.$name.'</a>';
-        echo '</li>';
-    }
-    ?>
-</ul>
+    <ul class="nav nav-pills">
+        <?php
+        foreach ($reports as $key => $name) {
+            echo '<li role="presentation" '.($report === $key ? 'class="active"' : '').'>';
+            echo '<a href="/?report='.$key.'">'.$name.'</a>';
+            echo '</li>';
+        }
+        ?>
+    </ul>
 <?php
 
 switch ($report) {
@@ -111,15 +111,15 @@ switch ($report) {
             <?php
             foreach ($members as $member) {
                 echo '<tr>';
-                    echo '<td><a href="'.$meetup->memberUrl($member).'" target="_blank">';
-                    echo $meetup->memberPhoto($member);
-                    echo $member->name.'</a></td>';
+                echo '<td><a href="'.$meetup->memberUrl($member).'" target="_blank">';
+                echo $meetup->memberPhoto($member);
+                echo $member->name.'</a></td>';
 
-                    echo '<td>'.$member->paidAt.'</td>';
-                    echo '<td>&pound;'.number_format($member->amount, 2).'</td>';
+                echo '<td>'.$member->paidAt.'</td>';
+                echo '<td>&pound;'.number_format($member->amount, 2).'</td>';
 
-                    $total = $payments->getTotal($member->id);
-                    echo '<td>&pound;'.number_format($total, 2).'</td>';
+                $total = $payments->getTotal($member->id);
+                echo '<td>&pound;'.number_format($total, 2).'</td>';
                 echo '</tr>';
             }
             ?>
