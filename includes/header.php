@@ -12,12 +12,17 @@
             width: 20px;
             height: 20px;
         }
+
+        .nav-pills > li > a {
+            background: #fafafa;
+        }
     </style>
 </head>
 <body>
 
-<div class="text-center">
-    <img src="/assets/meetup.png" alt="Meetup" style="width:150px;" />
-</div>
-
 <div class="container">
+
+    <div class="text-center">
+        <img src="/assets/meetup.png" alt="Meetup" style="width:150px;" />
+    </div>
+
