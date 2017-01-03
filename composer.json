@@ -1,0 +1,20 @@
+{
+    "name": "anthony/meetup",
+    "authors": [
+        {
+            "name": "Anthony Kuske",
+            "email": "anthonykuske@gmail.com"
+        }
+    ],
+    "require": {
+        "guzzlehttp/guzzle": "^6.2",
+        "dms/meetup-api-client": "^2.2",
+        "symfony/property-access": "^3.1",
+        "nesbot/carbon": "^1.21"
+    },
+    "autoload": {
+        "psr-4": {
+            "Meetup\\": "src"
+        }
+    }
+}
