@@ -28,6 +28,7 @@ $reports = [
     'unpopular-meetups' => 'Least Popular Events',
     'loneliest-meetups' => 'Loneliest Events',
     'most-yes-members' => 'Most Yes RSVPs',
+    'recent-most-yes-members' => 'Most Yes RSVPs (Last 4 Months)',
     'most-no-members' => 'Most No RSVPs',
     'most-no-shows' => 'Most No-Shows',
 ];
@@ -77,6 +78,14 @@ switch ($report) {
         <h2>Members Who Have RSVPd Yes The Most</h2>
         <?php
         $members = $reporter->getMostYesMembers();
+        $displayer->showMembers($members);
+        break;
+
+    case 'recent-most-yes-members':
+        ?>
+        <h2>Members Who Have RSVPd Yes The Most (Last 4 Months)</h2>
+        <?php
+        $members = $reporter->getRecentMostYesMembers();
         $displayer->showMembers($members);
         break;
 

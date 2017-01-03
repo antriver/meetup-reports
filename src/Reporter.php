@@ -2,6 +2,7 @@
 
 namespace Meetup;
 
+use Carbon\Carbon;
 use PDO;
 
 class Reporter
@@ -124,6 +125,22 @@ class Reporter
             {$this->getMemberSelect()}           
             FROM members m
             JOIN rsvps r on r.memberId = m.id
+            GROUP BY m.id
+            ORDER BY yes DESC
+            LIMIT 100";
+
+        return $this->db->query($sql);
+    }
+
+    public function getRecentMostYesMembers()
+    {
+        $cutoff = (new Carbon("-4 MONTHS"))->toDateTimeString();
+
+        $sql = "SELECT 
+            {$this->getMemberSelect()}           
+            FROM members m
+            JOIN rsvps r on r.memberId = m.id
+            WHERE r.created >= '{$cutoff}'
             GROUP BY m.id
             ORDER BY yes DESC
             LIMIT 100";
