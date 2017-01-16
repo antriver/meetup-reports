@@ -8,8 +8,8 @@ $fee = $meetup->config['meetupFee'];
 ?>
 <h2>Suggested Contributions</h2>
 
-<p>If the ~£<?=$fee?> Meetup fee were split between the top 50 users of the group, each person should pay this much
-    based on how much they RSVPd yes in the last 6 months.</p>
+<p>If the £<?=$fee?> Meetup fee for the last 6 months were split between the top 50 users of the group in
+    the last 6 months, each person should pay this much based on how much they RSVPd 'yes'.</p>
 
 <?php
 $totalRecentRsvps = $reporter->getRecentTotalYesRsvps();
