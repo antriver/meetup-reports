@@ -15,6 +15,7 @@ class Rsvps extends AbstractDataSource
                 $rsvps = $this->getRsvpsForEvent($event);
             } catch (\Exception $e) {
                 echo "\t!!! Unable to get RSVPs {$e->getMessage()}";
+                continue;
             }
 
             if (empty($rsvps)) {
