@@ -9,14 +9,20 @@ class Rsvps extends AbstractDataSource
         $events = $this->meetup->events->all();
 
         foreach ($events as $event) {
-            $rsvps = $this->getRsvpsForEvent($event);
+            echo "{$event->id}\t{$event->name}".PHP_EOL;
 
-            if (!$rsvps) {
+            try {
+                $rsvps = $this->getRsvpsForEvent($event);
+            } catch (\Exception $e) {
+                echo "\t!!! Unable to get RSVPs {$e->getMessage()}";
+            }
+
+            if (empty($rsvps)) {
                 continue;
             }
 
             foreach ($rsvps as $rsvp) {
-                echo "{$rsvp->event->id}\t{$rsvp->event->name}\t{$rsvp->member->id}";
+                echo "\t{$rsvp->event->id}\t{$rsvp->event->name}\t{$rsvp->member->id}";
                 echo "\t{$rsvp->member->name}\t{$rsvp->response}".PHP_EOL;
 
                 $this->insertRsvp($rsvp);

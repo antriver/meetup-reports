@@ -16,6 +16,7 @@ $reports = [
     'recent-most-yes-members' => 'Most Yes RSVPs (Last 3 Months)',
     'most-no-members' => 'Most No RSVPs',
     'most-no-shows' => 'Most No-Shows',
+    'fee-split' => 'Suggested Contributions',
     'payments' => 'Fee Contributors',
 ];
 
@@ -89,6 +90,10 @@ switch ($report) {
         <?php
         $members = $reporter->getMostNoShows();
         $displayer->showMembers($members);
+        break;
+
+    case 'fee-split':
+        include __DIR__.'/reports/fee-split.php';
         break;
 
     case 'payments':

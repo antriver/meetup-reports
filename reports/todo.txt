@@ -1,5 +1,0 @@
-Most popular meetups
-Loneliest meetups (0 or 1 yes responses)
-Members with most yes rsvps
-Members with most no rsvps
-Member with most no shows

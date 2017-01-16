@@ -186,4 +186,41 @@ class Reporter
 
         return $this->db->query($sql);
     }
+
+    /**
+     * Returns the number of yes rsvps there have been for events in the last 6 months.
+     */
+    public function getRecentTotalYesRsvps()
+    {
+        $cutoff = date('Y-m-d H:i:s', strtotime('-6 MONTHS'));
+
+        $sql = "select count(*) as c from rsvps r join events e on e.id = r.`eventId` 
+        where e.time >= ? and r.response = 'yes'";
+
+        $statement = $this->db->prepare($sql);
+        $statement->execute([$cutoff]);
+
+        return $statement->fetchColumn();
+    }
+
+    /**
+     * Returns the number of yes rsvps there have been for events in the last 6 months.
+     */
+    public function getMembersRecentYesRsvps()
+    {
+        $cutoff = date('Y-m-d H:i:s', strtotime('-6 MONTHS'));
+
+        $sql = "select m.*, count(*) AS yesRsvps
+        from rsvps r 
+        join events e on e.id = r.`eventId` 
+        join members m on m.id = r.`memberId`
+        where e.time >= '{$cutoff}' and r.response = 'yes' 
+        group by m.id
+        order by yesRsvps desc
+        limit 50";
+
+        $results = $this->db->query($sql);
+
+        return $results->fetchAll();
+    }
 }

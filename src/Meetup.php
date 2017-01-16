@@ -10,7 +10,7 @@ class Meetup
     /**
      * @var array
      */
-    private $config;
+    public $config;
 
     /**
      * @var Client
