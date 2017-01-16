@@ -33,6 +33,10 @@ class Rsvps extends AbstractDataSource
 
     protected function insertRsvp($data)
     {
+        if (empty($data['memberId']) || empty($data['eventId']) || empty($data['response'])) {
+            return false;
+        }
+
         $keys = [
             'memberId',
             'eventId',
