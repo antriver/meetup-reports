@@ -12,6 +12,8 @@ class Rsvps extends AbstractDataSource
             echo "{$event->id}\t{$event->name}".PHP_EOL;
 
             try {
+                // To avoid throttling, only make 1 request per second:
+                sleep(1);
                 $rsvps = $this->getRsvpsForEvent($event);
             } catch (\Exception $e) {
                 echo "\t!!! Unable to get RSVPs {$e->getMessage()}";
