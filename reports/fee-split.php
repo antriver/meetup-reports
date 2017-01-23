@@ -82,6 +82,7 @@ foreach ($members as $member) {
             <!--<th><?=number_format($totalPercent)?>%</th>-->
             <th><?=number_format($totalTopPercent)?>%</th>
             <th>&pound;<?=$totalFees?></th>
+            <th></th>
         </tr>
     </tfoot>
 </table>
