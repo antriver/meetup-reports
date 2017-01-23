@@ -3,6 +3,7 @@ require __DIR__.'/vendor/autoload.php';
 $meetup = new \Meetup\Meetup();
 $reporter = new \Meetup\Reporter($meetup, $meetup->db);
 $displayer = new \Meetup\ReportDisplayer($meetup);
+$payments = new \Meetup\MemberPayments($meetup->db);
 
 $report = !empty($_GET['report']) ? $_GET['report'] : null;
 
@@ -101,7 +102,6 @@ switch ($report) {
         <h2>Members Who Have Contributed To Fees</h2>
         <?php
         $members = $reporter->getFeeContributors();
-        $payments = new \Meetup\MemberPayments($meetup->db);
         ?>
         <table class="table table-striped">
             <thead>

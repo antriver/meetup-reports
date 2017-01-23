@@ -1,8 +1,9 @@
 <?php
 /**
-* @var \Meetup\Reporter $reporter
-* @var \Meetup\Meetup $meetup
-*/
+ * @var \Meetup\Reporter $reporter
+ * @var \Meetup\Meetup $meetup
+ * @var \Meetup\MemberPayments $payments
+ */
 
 $fee = $meetup->config['meetupFee'];
 ?>
@@ -33,6 +34,7 @@ foreach ($members as $member) {
         <!--<th>% of Yes RSVPs</th>-->
         <th>% of Top 50 Member RSVPs</th>
         <th>Suggested Contribution</th>
+        <th>Actual Contribution</th>
     </tr>
     </thead>
     <tbody>
@@ -63,6 +65,10 @@ foreach ($members as $member) {
             $memberFee = ceil($fee / 100 * $topPercent);
             echo '<td>&pound;'.$memberFee.'</td>';
             $totalFees += $memberFee;
+
+            $actualPaid = $payments->getTotal($member->id);
+            $actualClass = $actualPaid >= $memberFee ? 'text-success' : 'text-danger';
+            echo '<td class="'.$actualClass.'">&pound;'.$actualPaid.'</td>';
 
         echo '</tr>';
     }
