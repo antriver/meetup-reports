@@ -68,7 +68,7 @@ foreach ($members as $member) {
 
             $actualPaid = $payments->getTotal($member->id);
             $actualClass = $actualPaid >= $memberFee ? 'text-success' : 'text-danger';
-            echo '<td class="'.$actualClass.'">&pound;'.$actualPaid.'</td>';
+            echo '<td class="'.$actualClass.'"><strong>'.($actualPaid ? '&pound;'.$actualPaid : '').'</strong></td>';
 
         echo '</tr>';
     }
