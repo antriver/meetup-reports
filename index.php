@@ -19,6 +19,7 @@ $reports = [
     'most-no-shows' => 'Most No-Shows',
     'fee-split' => 'Suggested Contributions',
     'payments' => 'Fee Contributors',
+    'answers' => 'Answers',
 ];
 
 ?>
@@ -95,6 +96,61 @@ switch ($report) {
 
     case 'fee-split':
         include __DIR__.'/reports/fee-split.php';
+        break;
+
+    case 'answers':
+        ?>
+        <h2>Profile Questions Answers</h2>
+        <?php
+        $members = $reporter->getAllMembers();
+        ?>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Answers</th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php
+            foreach ($members as $member) {
+                $memberData = json_decode($member->data);
+                echo '<tr>';
+                echo '<td><a href="'.$meetup->memberUrl($member).'" target="_blank">';
+                echo $meetup->memberPhoto($member);
+                echo $member->name.'</a></td>';
+
+                $questions = [];
+                foreach ($memberData->answers as $answer) {
+                    $questions[] = [
+                        'q' => $answer->question,
+                        'a' => $answer->answer
+                    ];
+                }
+                ?>
+                <td>
+                    <table width="100%">
+                        <tr>
+                            <?php
+                            foreach ($questions as $q) {
+                                echo '<th>'.$q['q'].'</th>';
+                            }
+                            ?>
+                        </tr>
+                        <tr>
+                            <?php
+                            foreach ($questions as $q) {
+                                echo '<td>'.$q['a'].'</td>';
+                            }
+                            ?>
+                        </tr>
+                    </table>
+
+                </td>
+            </tbody>
+
+        </table>
+        <?php
         break;
 
     case 'payments':

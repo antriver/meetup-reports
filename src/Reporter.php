@@ -119,6 +119,17 @@ class Reporter
                  ";
     }
 
+    public function getAllMembers()
+    {
+        $sql = "SELECT 
+            m.*       
+            FROM members m
+            GROUP BY m.id
+            ORDER BY joined DESC";
+
+        return $this->db->query($sql);
+    }
+
     public function getMostYesMembers()
     {
         $sql = "SELECT 
