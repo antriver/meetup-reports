@@ -125,7 +125,7 @@ class Reporter
             m.*       
             FROM members m
             GROUP BY m.id
-            ORDER BY joined DESC";
+            ORDER BY joined_group DESC";
 
         return $this->db->query($sql);
     }

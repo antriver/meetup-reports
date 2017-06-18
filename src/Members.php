@@ -8,7 +8,7 @@ class Members extends AbstractDataSource
 {
     public function all()
     {
-        $query = $this->db->prepare('SELECT * FROM members ORDER BY name ASC');
+        $query = $this->db->prepare('SELECT * FROM members ORDER BY joined_group DESC');
         $query->execute();
 
         $rows = $query->fetchAll(PDO::FETCH_OBJ);
