@@ -23,6 +23,7 @@ class Members extends AbstractDataSource
             'name',
             'status',
             'joined',
+            'joined_group',
             'city',
             'country',
             'state',
@@ -32,6 +33,8 @@ class Members extends AbstractDataSource
         $dates = [
             'joined',
         ];
+
+        $data->joined_group = $data->group_profile->created;
 
         return $this->insert('members', $keys, $dates, $data);
     }
