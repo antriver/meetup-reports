@@ -107,7 +107,7 @@ switch ($report) {
         <table class="table table-striped">
             <thead>
             <tr>
-                <th>Name</th>
+                <th style="width:160px;">Name</th>
                 <th>Answers</th>
             </tr>
             </thead>
@@ -121,32 +121,35 @@ switch ($report) {
                 echo $member->name.'</a></td>';
 
                 $questions = [];
-                foreach ($memberData->answers as $answer) {
+                foreach ($memberData->group_profile->answers as $answer) {
                     $questions[] = [
                         'q' => $answer->question,
                         'a' => $answer->answer
                     ];
                 }
                 ?>
-                <td>
-                    <table width="100%">
-                        <tr>
-                            <?php
-                            foreach ($questions as $q) {
-                                echo '<th>'.$q['q'].'</th>';
-                            }
-                            ?>
-                        </tr>
-                        <tr>
-                            <?php
-                            foreach ($questions as $q) {
-                                echo '<td>'.$q['a'].'</td>';
-                            }
-                            ?>
-                        </tr>
-                    </table>
-
-                </td>
+                    <td>
+                        <table width="100%">
+                            <tr>
+                                <?php
+                                foreach ($questions as $q) {
+                                    echo '<th width="50%">'.$q['q'].'</th>';
+                                }
+                                ?>
+                            </tr>
+                            <tr>
+                                <?php
+                                foreach ($questions as $q) {
+                                    echo '<td>'.$q['a'].'</td>';
+                                }
+                                ?>
+                            </tr>
+                        </table>
+                    </td>
+                <?php
+                echo '</tr>';
+            }
+            ?>
             </tbody>
 
         </table>
