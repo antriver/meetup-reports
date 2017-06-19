@@ -100,7 +100,7 @@ switch ($report) {
 
     case 'answers':
         ?>
-        <h2>Profile Questions Answers</h2>
+        <h2>Profile Question Answers</h2>
         <?php
         $members = $reporter->getAllMembers();
         ?>
