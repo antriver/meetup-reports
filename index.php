@@ -4,10 +4,12 @@ $meetup = new \Meetup\Meetup();
 $reporter = new \Meetup\Reporter($meetup, $meetup->db);
 $displayer = new \Meetup\ReportDisplayer($meetup);
 
-$paymentPeriodId = !empty($_GET['paymentPeriod']) ? (int) $_GET['paymentPeriod'] : null;
+$paymentPeriodId = !empty($_GET['paymentPeriodId']) ? (int) $_GET['paymentPeriodId'] : null;
 if (!empty($paymentPeriodId)) {
     $paymentPeriod = $meetup->payments->findPaymentPeriod($paymentPeriodId);
 }
+
+var_dump($paymentPeriod);
 
 $report = !empty($_GET['report']) ? $_GET['report'] : null;
 
@@ -99,14 +101,14 @@ switch ($report) {
         break;
 
     case 'fee-split':
-        echo $meetup->paymentPeriodTabs($paymentPeriodId, '/?report=fee-split&paymentPeriod=');
+        echo $meetup->paymentPeriodTabs($paymentPeriodId, '/?report=fee-split&paymentPeriodId=');
         if ($paymentPeriodId) {
             include __DIR__.'/reports/fee-split.php';
         }
         break;
 
     case 'payments':
-        echo $meetup->paymentPeriodTabs($paymentPeriodId, '/?report=payments&paymentPeriod=');
+        echo $meetup->paymentPeriodTabs($paymentPeriodId, '/?report=payments&paymentPeriodId=');
         if (!empty($paymentPeriod)) {
             ?>
             <h2>Members Who Have Contributed To Fees</h2>
