@@ -8,12 +8,19 @@
 $fee = $paymentPeriod->getFee();
 $dateFrom = $paymentPeriod->getFrom();
 $dateTo = $paymentPeriod->getTo();
+
+$previousPeriod = $meetup->payments->findPreviousPaymentPeriod($paymentPeriod);
+if (!$paymentPeriod) {
+    die();
+}
 ?>
 <h2>Suggested Contributions</h2>
 
-<p>If the £<?=$fee?> Meetup fee were split between the top 50 users of the group in
-    the period between <strong><?=($dateFrom ? $dateFrom->format('M jS y') : '')?></strong> and
-    <strong><?=($dateTo ? $dateTo->format('M jS y') : '')?></strong>, each person should pay this much based on how much they RSVPd 'yes'.</p>
+<p>If the £<?=$fee?> Meetup fee for the period <strong><?=($dateFrom ? $dateFrom->format('M jS y') : '')?></strong> to
+    <strong><?=($dateTo ? $dateTo->format('M jS y') : '')?></strong> were split based on the top 50 users in the <em>previous period</em>
+    (<strong><?=($previousPeriod->getFrom() ? $previousPeriod->getFrom()->format('M jS y') : '')?></strong> to
+    <strong><?=($previousPeriod->getTo() ? $previousPeriod->getTo()->format('M jS y') : '')?></strong>),
+    each person should pay this much based on how much they RSVPd 'yes'.</p>
 
 <?php
 $totalRecentRsvps = $reporter->getTotalYesRsvps($paymentPeriod);

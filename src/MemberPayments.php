@@ -78,4 +78,18 @@ class MemberPayments
 
         return null;
     }
+
+    public function findPreviousPaymentPeriod(PaymentPeriod $paymentPeriod)
+    {
+        $sql = "select * from payment_periods where `to` <= ? order by `to` desc limit 1";
+
+        $query = $this->db->prepare($sql);
+        $query->execute([$paymentPeriod->getFrom()]);
+
+        if ($result = $query->fetch()) {
+            return new PaymentPeriod($result->id, $result->from, $result->to, $result->fee);
+        }
+
+        return null;
+    }
 }
