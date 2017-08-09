@@ -9,7 +9,7 @@ class Events extends AbstractDataSource
 {
     public function all()
     {
-        $query = $this->db->prepare('SELECT * FROM events ORDER BY created DESC');
+        $query = $this->db->prepare('SELECT * FROM events ORDER BY time DESC');
         $query->execute();
 
         $rows = $query->fetchAll(PDO::FETCH_OBJ);
@@ -22,7 +22,7 @@ class Events extends AbstractDataSource
         $time = (new \DateTime('-7 DAYS'))->format('Y-m-d H:i:s');
 
         $query = $this->db->prepare(
-            'SELECT * FROM events WHERE (rsvps_updated_at IS NULL OR time > ?) ORDER BY created DESC'
+            'SELECT * FROM events WHERE (rsvps_updated_at IS NULL OR time > ?) ORDER BY time DESC'
         );
         $query->execute([
             $time
