@@ -23,6 +23,6 @@
 <div class="container">
 
     <div class="text-center">
-        <img src="/assets/meetup.png" alt="Meetup" style="width:150px;" />
+        <a href="/"><img src="/assets/meetup.png" alt="Meetup" style="width:150px;" /></a>
     </div>
 

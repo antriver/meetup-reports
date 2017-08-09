@@ -42,7 +42,7 @@ if ($paymentPeriodId) {
             echo $meetup->memberPhoto($member);
             echo $member->name.'</a></td>';
 
-            $total = $meetup->payments->getTotal($member->id);
+            $total = $meetup->payments->getTotal($member->id, $paymentPeriod);
 
             echo '<td class="total">';
             if ($total) {

@@ -35,31 +35,32 @@ class Rsvps extends AbstractDataSource
         }
     }
 
-    protected function insertRsvp($data)
+    protected function insertRsvp($rsvp)
     {
-        if (empty($data->memberId) || empty($data->eventId) || empty($data->response)) {
-            return false;
-        }
+        $sql = "INSERT INTO rsvps (memberId, eventId, response, guests, attendance_status, created, updated, data)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        ON DUPLICATE KEY UPDATE 
+            response = VALUES(response),
+            guests = VALUES(guests),
+            attendance_status = VALUES(attendance_status),
+            updated = VALUES(updated),
+            data = VALUES(data)";
 
-        $keys = [
-            'memberId',
-            'eventId',
-            'response',
-            'guests',
-            'attendance_status',
-            'created',
-            'updated',
+        $params = [
+            $rsvp->member->id,
+            $rsvp->event->id,
+            $rsvp->response,
+            $rsvp->guests,
+            $rsvp->attendance_status,
+            date('Y-m-d H:i:s', ($rsvp->created / 1000)),
+            date('Y-m-d H:i:s', ($rsvp->updated / 1000)),
+            json_encode($rsvp)
         ];
 
-        $dates = [
-            'created',
-            'updated',
-        ];
+        $query = $this->db->prepare($sql);
+        $query->execute($params);
 
-        $data->memberId = $data->member->id;
-        $data->eventId = $data->event->id;
-
-        $this->insert('rsvps', $keys, $dates, $data);
+        return $query->rowCount();
     }
 
     protected function getRsvpsForEvent($event)

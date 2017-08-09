@@ -5,12 +5,11 @@
  * @var \Meetup\PaymentPeriod $paymentPeriod
  */
 
-$fee = $paymentPeriod->getFee();
 ?>
 <h2>Suggested Contributions</h2>
 
-<p>If the £<?=$fee?> Meetup fee for the last 6 months were split between the top 50 users of the group in
-    the last 6 months, each person should pay this much based on how much they RSVPd 'yes'.</p>
+<p>If the £<?=$paymentPeriod->getFee()?> Meetup fee were split between the top 50 users of the group in
+    the period, each person should pay this much based on how much they RSVPd 'yes'.</p>
 
 <?php
 $totalRecentRsvps = $reporter->getTotalYesRsvps($paymentPeriod);

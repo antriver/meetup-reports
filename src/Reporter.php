@@ -202,7 +202,7 @@ class Reporter
         $query = $this->db->prepare($sql);
         $query->execute($params);
 
-        return $query->fetchColumn();
+        return $query->fetchAll();
     }
 
     /**

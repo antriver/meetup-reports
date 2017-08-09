@@ -9,8 +9,6 @@ if (!empty($paymentPeriodId)) {
     $paymentPeriod = $meetup->payments->findPaymentPeriod($paymentPeriodId);
 }
 
-var_dump($paymentPeriod);
-
 $report = !empty($_GET['report']) ? $_GET['report'] : null;
 
 include __DIR__.'/includes/header.php';
@@ -37,6 +35,7 @@ $reports = [
             echo '</li>';
         }
         ?>
+        <li><a href="/payments.php">Add Payments</a></li>
     </ul>
 <?php
 
@@ -121,7 +120,8 @@ switch ($report) {
                     <th>Name</th>
                     <th>Date</th>
                     <th>Amount</th>
-                    <th>Total Contributions</th>
+                    <th>Total Contributions In Period</th>
+                    <th>Total Contributions All Time</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -134,6 +134,9 @@ switch ($report) {
 
                     echo '<td>'.$member->paidAt.'</td>';
                     echo '<td>&pound;'.number_format($member->amount, 2).'</td>';
+
+                    $total = $meetup->payments->getTotal($member->id, $paymentPeriod);
+                    echo '<td>&pound;'.number_format($total, 2).'</td>';
 
                     $total = $meetup->payments->getTotal($member->id);
                     echo '<td>&pound;'.number_format($total, 2).'</td>';

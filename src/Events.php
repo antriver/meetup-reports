@@ -22,7 +22,7 @@ class Events extends AbstractDataSource
         $time = (new \DateTime('-7 DAYS'))->format('Y-m-d H:i:s');
 
         $query = $this->db->prepare(
-            'SELECT * FROM events WHERE rsvps_updated_at IS NULL OR time > ? ORDER BY created DESC'
+            'SELECT * FROM events WHERE (rsvps_updated_at IS NULL OR time > ?) ORDER BY created DESC'
         );
         $query->execute([
             $time
