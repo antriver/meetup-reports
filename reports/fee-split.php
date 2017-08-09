@@ -10,8 +10,8 @@ $dateFrom = $paymentPeriod->getFrom();
 $dateTo = $paymentPeriod->getTo();
 
 $previousPeriod = $meetup->payments->findPreviousPaymentPeriod($paymentPeriod);
-if (!$paymentPeriod) {
-    die();
+if (!$previousPeriod) {
+    die("Can't calculate for this period.");
 }
 ?>
 <h2>Suggested Contributions</h2>
@@ -32,8 +32,8 @@ foreach ($members as $member) {
 }
 ?>
 
-<p>Total Yes RSVPs in period: <?=number_format($totalRecentRsvps)?></p>
-<p>Total Yes RSVPs in period from these top 50 users: <?=number_format($totalRsvpsFromTopUsers)?></p>
+<p>Total Yes RSVPs in previous period: <?=number_format($totalRecentRsvps)?></p>
+<p>Total Yes RSVPs in previous period from these top 50 users: <?=number_format($totalRsvpsFromTopUsers)?></p>
 
 <table class="table table-striped">
     <thead>
