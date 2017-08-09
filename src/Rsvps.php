@@ -6,7 +6,7 @@ class Rsvps extends AbstractDataSource
 {
     public function update()
     {
-        $events = $this->meetup->events->all();
+        $events = $this->meetup->events->rsvpUpdateNeeded();
 
         foreach ($events as $event) {
             echo "{$event->id}\t{$event->name}".PHP_EOL;
@@ -19,6 +19,8 @@ class Rsvps extends AbstractDataSource
                 echo "\t!!! Unable to get RSVPs {$e->getMessage()}";
                 continue;
             }
+
+            $this->meetup->events->setRsvpsUpdatedAt($event->id);
 
             if (empty($rsvps)) {
                 continue;

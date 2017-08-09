@@ -17,6 +17,30 @@ class Events extends AbstractDataSource
         return $rows;
     }
 
+    public function rsvpUpdateNeeded()
+    {
+        $time = (new \DateTime('-7 DAYS'))->format('Y-m-d H:i:s');
+
+        $query = $this->db->prepare(
+            'SELECT * FROM events WHERE rsvps_updated_at IS NULL OR time > ? ORDER BY created DESC'
+        );
+        $query->execute([
+            $time
+        ]);
+
+        $rows = $query->fetchAll(PDO::FETCH_OBJ);
+
+        return $rows;
+    }
+
+    public function setRsvpsUpdatedAt($eventId)
+    {
+        $query = $this->db->prepare('UPDATE events SET rsvps_update_at = NOW() WHERE id = ?');
+        $query->execute([$eventId]);
+
+        return $query->rowCount() > 0;
+    }
+
     public function insertEvent($data)
     {
         $keys = [
