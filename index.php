@@ -89,6 +89,7 @@ switch ($report) {
             <h2>Members Who Have Contributed To Fees</h2>
             <?php
             $members = $reporter->getFeeContributors($paymentPeriod);
+            $total = 0;
             ?>
             <table class="table table-striped">
                 <thead>
@@ -110,17 +111,27 @@ switch ($report) {
 
                     echo '<td>'.$member->paidAt.'</td>';
                     echo '<td>&pound;'.number_format($member->amount, 2).'</td>';
+                    $total += $member->amount;
 
-                    $total = $meetup->payments->getTotal($member->id, $paymentPeriod);
-                    echo '<td>&pound;'.number_format($total, 2).'</td>';
+                    $memberPeriodTotal = $meetup->payments->getTotal($member->id, $paymentPeriod);
+                    echo '<td>&pound;'.number_format($memberPeriodTotal, 2).'</td>';
 
-                    $total = $meetup->payments->getTotal($member->id);
-                    echo '<td>&pound;'.number_format($total, 2).'</td>';
+                    $memberTotal = $meetup->payments->getTotal($member->id);
+                    echo '<td>&pound;'.number_format($memberTotal, 2).'</td>';
                     echo '</tr>';
                 }
                 ?>
                 </tbody>
-
+                <tfoot>
+                    <tr>
+                        <th><?=count($members)?> members</th>
+                        <th></th>
+                        <th></th>
+                        <th>Total paid <?=number_format($total)?></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </tfoot>
             </table>
             <?php
         }
