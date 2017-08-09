@@ -224,9 +224,9 @@ class Reporter
 
         if ($to = $paymentPeriod->getTo()) {
             $sql .= " AND e.time <= ?";
-            $params[] = $from->toDateTimeString();
+            $params[] = $to->toDateTimeString();
         }
-
+        
         $query = $this->db->prepare($sql);
         $query->execute($params);
 
@@ -256,7 +256,7 @@ class Reporter
 
         if ($to = $paymentPeriod->getTo()) {
             $sql .= " AND e.time <= ?";
-            $params[] = $from->toDateTimeString();
+            $params[] = $to->toDateTimeString();
         }
 
         $sql .= "
