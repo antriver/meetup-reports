@@ -5,12 +5,13 @@
  * @var \Meetup\PaymentPeriod $paymentPeriod
  */
 
+$fee = $paymentPeriod->getFee();
 $dateFrom = $paymentPeriod->getFrom();
 $dateTo = $paymentPeriod->getTo();
 ?>
 <h2>Suggested Contributions</h2>
 
-<p>If the £<?=$paymentPeriod->getFee()?> Meetup fee were split between the top 50 users of the group in
+<p>If the £<?=$fee?> Meetup fee were split between the top 50 users of the group in
     the period between <strong><?=($dateFrom ? $dateFrom->format('M jS y') : '')?></strong> and
     <strong><?=($dateTo ? $dateTo->format('M jS y') : '')?></strong>, each person should pay this much based on how much they RSVPd 'yes'.</p>
 
@@ -24,8 +25,8 @@ foreach ($members as $member) {
 }
 ?>
 
-<p>Total Yes RSVPs in last 6 months: <?=number_format($totalRecentRsvps)?></p>
-<p>Total Yes RSVPs in last 6 months from the top 50 users: <?=number_format($totalRsvpsFromTopUsers)?></p>
+<p>Total Yes RSVPs in period: <?=number_format($totalRecentRsvps)?></p>
+<p>Total Yes RSVPs in period from these top 50 users: <?=number_format($totalRsvpsFromTopUsers)?></p>
 
 <table class="table table-striped">
     <thead>
