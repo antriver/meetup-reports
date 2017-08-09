@@ -94,7 +94,7 @@ class Meetup
         $r .= '<ul class="nav nav-pills">';
 
         foreach ($this->payments->getPaymentPeriods() as $paymentPeriod) {
-            $r .= '<li role="presentation" '.($selectedId === $paymentPeriod->getId() ? 'class="active"' : '').'>';
+            $r .= '<li role="presentation" '.($selectedId == $paymentPeriod->getId() ? 'class="active"' : '').'>';
 
             $r .= '<a href="'.$url.$paymentPeriod->getId().'">';
 

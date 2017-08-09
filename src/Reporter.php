@@ -188,7 +188,7 @@ class Reporter
 
     public function getFeeContributors(PaymentPeriod $paymentPeriod)
     {
-        $params = [];
+        $params = [$paymentPeriod->getId()];
 
         $sql = "SELECT 
             m.*,
@@ -196,21 +196,13 @@ class Reporter
             amount           
             FROM members m
             JOIN member_payments mp ON mp.memberId = m.id
-            WHERE 1";
+            WHERE mp.paymentPeriodId = ?
+            ORDER BY paidAt DESC";
 
-        if ($from = $paymentPeriod->getFrom()) {
-            $sql .= " AND mp.paidAt >= ?";
-            $params[] = $from->toDateTimeString();
-        }
+        $query = $this->db->prepare($sql);
+        $query->execute($params);
 
-        if ($to = $paymentPeriod->getTo()) {
-            $sql .= " AND mp.paidAt <= ?";
-            $params[] = $from->toDateTimeString();
-        }
-
-        $sql .= "ORDER BY paidAt DESC";
-
-        return $this->db->query($sql);
+        return $query->fetchColumn();
     }
 
     /**
