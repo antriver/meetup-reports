@@ -21,9 +21,9 @@ $reports = [
     'recent-most-yes-members' => 'Most Yes RSVPs (Last 3 Months)',
     'most-no-members' => 'Most No RSVPs',
     'most-no-shows' => 'Most No-Shows',
-    'fee-split' => 'Suggested Contributions',
-    'payments' => 'Fee Contributors',
     'answers' => 'Answers',
+    'fee-split' => 'Suggested Payments',
+    'payments' => 'Payments Received',
 ];
 
 ?>
