@@ -3,7 +3,11 @@ require __DIR__.'/vendor/autoload.php';
 $meetup = new \Meetup\Meetup();
 $reporter = new \Meetup\Reporter($meetup, $meetup->db);
 $displayer = new \Meetup\ReportDisplayer($meetup);
-$payments = new \Meetup\MemberPayments($meetup->db);
+
+$paymentPeriodId = !empty($_GET['paymentPeriod']) ? (int) $_GET['paymentPeriod'] : null;
+if (!empty($paymentPeriodId)) {
+    $paymentPeriod = $meetup->payments->findPaymentPeriod($paymentPeriodId);
+}
 
 $report = !empty($_GET['report']) ? $_GET['report'] : null;
 
@@ -95,8 +99,52 @@ switch ($report) {
         break;
 
     case 'fee-split':
-        include __DIR__.'/reports/fee-split.php';
+        echo $meetup->paymentPeriodTabs($paymentPeriodId, '/?report=fee-split&paymentPeriod=');
+        if ($paymentPeriodId) {
+            include __DIR__.'/reports/fee-split.php';
+        }
         break;
+
+    case 'payments':
+        echo $meetup->paymentPeriodTabs($paymentPeriodId, '/?report=payments&paymentPeriod=');
+        if (!empty($paymentPeriod)) {
+            ?>
+            <h2>Members Who Have Contributed To Fees</h2>
+            <?php
+            $members = $reporter->getFeeContributors($paymentPeriod);
+            ?>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Date</th>
+                    <th>Amount</th>
+                    <th>Total Contributions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php
+                foreach ($members as $member) {
+                    echo '<tr>';
+                    echo '<td><a href="'.$meetup->memberUrl($member).'" target="_blank">';
+                    echo $meetup->memberPhoto($member);
+                    echo $member->name.'</a></td>';
+
+                    echo '<td>'.$member->paidAt.'</td>';
+                    echo '<td>&pound;'.number_format($member->amount, 2).'</td>';
+
+                    $total = $meetup->payments->getTotal($member->id);
+                    echo '<td>&pound;'.number_format($total, 2).'</td>';
+                    echo '</tr>';
+                }
+                ?>
+                </tbody>
+
+            </table>
+            <?php
+        }
+        break;
+
 
     case 'answers':
         ?>
@@ -147,43 +195,6 @@ switch ($report) {
                         </table>
                     </td>
                 <?php
-                echo '</tr>';
-            }
-            ?>
-            </tbody>
-
-        </table>
-        <?php
-        break;
-
-    case 'payments':
-        ?>
-        <h2>Members Who Have Contributed To Fees</h2>
-        <?php
-        $members = $reporter->getFeeContributors();
-        ?>
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th>Name</th>
-                <th>Date</th>
-                <th>Amount</th>
-                <th>Total Contributions</th>
-            </tr>
-            </thead>
-            <tbody>
-            <?php
-            foreach ($members as $member) {
-                echo '<tr>';
-                echo '<td><a href="'.$meetup->memberUrl($member).'" target="_blank">';
-                echo $meetup->memberPhoto($member);
-                echo $member->name.'</a></td>';
-
-                echo '<td>'.$member->paidAt.'</td>';
-                echo '<td>&pound;'.number_format($member->amount, 2).'</td>';
-
-                $total = $payments->getTotal($member->id);
-                echo '<td>&pound;'.number_format($total, 2).'</td>';
                 echo '</tr>';
             }
             ?>

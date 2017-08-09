@@ -2,12 +2,17 @@
 require __DIR__.'/vendor/autoload.php';
 $meetup = new \Meetup\Meetup();
 
+$paymentPeriodId = !empty($_GET['paymentPeriod']) ? (int) $_GET['paymentPeriod'] : null;
+
 $members = $meetup->members->all();
-$payments = new \Meetup\MemberPayments($meetup->db);
 
 include __DIR__.'/includes/header.php';
 
-?>
+echo $meetup->paymentPeriodTabs($paymentPeriodId, '/payments.php?paymentPeriod=');
+
+if ($paymentPeriodId) {
+    ?>
+
     <style type="text/css">
         .add-payment-btn {
             padding: 5px 8px;
@@ -31,7 +36,7 @@ include __DIR__.'/includes/header.php';
             echo $meetup->memberPhoto($member);
             echo $member->name.'</a></td>';
 
-            $total = $payments->getTotal($member->id);
+            $total = $meetup->payments->getTotal($member->id);
 
             echo '<td class="total">';
             if ($total) {
@@ -53,5 +58,6 @@ include __DIR__.'/includes/header.php';
         </tbody>
     </table>
 
-<?php
+    <?php
+}
 include __DIR__.'/includes/footer.php';

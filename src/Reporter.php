@@ -11,6 +11,7 @@ class Reporter
      * @var Meetup
      */
     private $meetup;
+
     /**
      * @var PDO
      */
@@ -185,15 +186,29 @@ class Reporter
         return $this->db->query($sql);
     }
 
-    public function getFeeContributors()
+    public function getFeeContributors(PaymentPeriod $paymentPeriod)
     {
+        $params = [];
+
         $sql = "SELECT 
             m.*,
             paidAt,
             amount           
             FROM members m
             JOIN member_payments mp ON mp.memberId = m.id
-            ORDER BY paidAt DESC";
+            WHERE 1";
+
+        if ($from = $paymentPeriod->getFrom()) {
+            $sql .= " AND mp.paidAt >= ?";
+            $params[] = $from->toDateTimeString();
+        }
+
+        if ($to = $paymentPeriod->getTo()) {
+            $sql .= " AND mp.paidAt <= ?";
+            $params[] = $from->toDateTimeString();
+        }
+
+        $sql .= "ORDER BY paidAt DESC";
 
         return $this->db->query($sql);
     }
@@ -205,8 +220,8 @@ class Reporter
     {
         $cutoff = date('Y-m-d H:i:s', strtotime('-6 MONTHS'));
 
-        $sql = "select count(*) as c from rsvps r join events e on e.id = r.`eventId` 
-        where e.time >= ? and r.response = 'yes'";
+        $sql = "SELECT count(*) AS c FROM rsvps r JOIN events e ON e.id = r.`eventId` 
+        WHERE e.time >= ? AND r.response = 'yes'";
 
         $statement = $this->db->prepare($sql);
         $statement->execute([$cutoff]);

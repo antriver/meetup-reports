@@ -39,4 +39,29 @@ class MemberPayments
             ]
         );
     }
+
+    /**
+     * @return PaymentPeriod[]
+     */
+    public function getPaymentPeriods()
+    {
+        $query = $this->db->prepare('SELECT * FROM payment_periods ORDER BY `from`');
+        $query->execute();
+
+        $results = [];
+
+        foreach ($query->fetchAll() as $result) {
+            $results[] = new PaymentPeriod($result->id, $result->from, $result->to);
+        }
+
+        return $results;
+    }
+
+    public function findPaymentPeriod($id)
+    {
+        $query = $this->db->prepare('SELECT * FROM payment_periods WHERE id = ?');
+        $query->execute([$id]);
+
+        return $query->fetch();
+    }
 }
