@@ -127,7 +127,7 @@ switch ($report) {
                         <th><?=count($members)?> members</th>
                         <th></th>
                         <th></th>
-                        <th>Total paid <?=number_format($total)?></th>
+                        <th>Total paid &pound;<?=number_format($total, 2)?></th>
                         <th></th>
                         <th></th>
                     </tr>
