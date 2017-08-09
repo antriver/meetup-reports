@@ -51,7 +51,7 @@ class Rsvps extends AbstractDataSource
             $rsvp->event->id,
             $rsvp->response,
             $rsvp->guests,
-            $rsvp->attendance_status,
+            !empty($rsvp->attendance_status) ? $rsvp->attendance_status : null,
             date('Y-m-d H:i:s', ($rsvp->created / 1000)),
             date('Y-m-d H:i:s', ($rsvp->updated / 1000)),
             json_encode($rsvp)
