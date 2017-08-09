@@ -23,8 +23,8 @@ if (!$paymentPeriod) {
     each person should pay this much based on how much they RSVPd 'yes'.</p>
 
 <?php
-$totalRecentRsvps = $reporter->getTotalYesRsvps($paymentPeriod);
-$members = $reporter->getMembersYesRsvps($paymentPeriod);
+$totalRecentRsvps = $reporter->getTotalYesRsvps($previousPeriod);
+$members = $reporter->getMembersYesRsvps($previousPeriod);
 
 $totalRsvpsFromTopUsers = 0;
 foreach ($members as $member) {
