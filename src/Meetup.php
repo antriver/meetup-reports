@@ -87,6 +87,33 @@ class Meetup
         return '';
     }
 
+    public function navTabs($selected)
+    {
+        $reports = [
+            'popular-meetups' => ['Most Popular Events', '/?report=popular-meetups'],
+            'unpopular-meetups' => ['Least Popular Events', '/?report=unpopular-meetups'],
+            'loneliest-meetups' => ['Loneliest Events', '/?report=loneliest-meetups'],
+            'most-yes-members' => ['Most Yes RSVPs', '/?report=most-yes-members'],
+            'recent-most-yes-members' => ['Most Yes RSVPs (Last 3 Months)', '/?report=recent-most-yes-members'],
+            'most-no-members' => ['Most No RSVPs', '/?report=most-no-members'],
+            'most-no-shows' => ['Most No-Shows', '/?report=most-no-shows'],
+            'answers' => ['Answers', '/?report=answers'],
+            'fee-split' => ['Suggested Payments', '/?report=fee-split'],
+            'payments' => ['Payments Received', '/?report=payments'],
+            'add-payments' => ['Add Payments', '/payments.php'],
+        ];
+
+        $r = '<ul class="nav nav-pills">';
+        foreach ($reports as $name => $data) {
+            $r .= '<li role="presentation" '.($selected === $name ? 'class="active"' : '').'>';
+            $r .= '<a href="'.$data[1].'">'.$data[0].'</a>';
+            $r .= '</li>';
+        }
+        $r .= '</ul>';
+
+        return $r;
+    }
+
     public function paymentPeriodTabs($selectedId, $url)
     {
         $r = '<h3>Payment Period</h3>';

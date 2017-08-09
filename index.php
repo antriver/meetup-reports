@@ -13,31 +13,7 @@ $report = !empty($_GET['report']) ? $_GET['report'] : null;
 
 include __DIR__.'/includes/header.php';
 
-$reports = [
-    'popular-meetups' => 'Most Popular Events',
-    'unpopular-meetups' => 'Least Popular Events',
-    'loneliest-meetups' => 'Loneliest Events',
-    'most-yes-members' => 'Most Yes RSVPs',
-    'recent-most-yes-members' => 'Most Yes RSVPs (Last 3 Months)',
-    'most-no-members' => 'Most No RSVPs',
-    'most-no-shows' => 'Most No-Shows',
-    'answers' => 'Answers',
-    'fee-split' => 'Suggested Payments',
-    'payments' => 'Payments Received',
-];
-
-?>
-    <ul class="nav nav-pills">
-        <?php
-        foreach ($reports as $key => $name) {
-            echo '<li role="presentation" '.($report === $key ? 'class="active"' : '').'>';
-            echo '<a href="/?report='.$key.'">'.$name.'</a>';
-            echo '</li>';
-        }
-        ?>
-        <li><a href="/payments.php">Add Payments</a></li>
-    </ul>
-<?php
+echo $meetup->navTabs($report);
 
 switch ($report) {
     case 'popular-meetups':

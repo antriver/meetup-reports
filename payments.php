@@ -8,6 +8,8 @@ $members = $meetup->members->all();
 
 include __DIR__.'/includes/header.php';
 
+echo $meetup->navTabs('add-payments');
+
 echo $meetup->paymentPeriodTabs($paymentPeriodId, '/payments.php?paymentPeriodId=');
 
 if ($paymentPeriodId) {
