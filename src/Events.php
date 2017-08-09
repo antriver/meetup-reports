@@ -35,7 +35,7 @@ class Events extends AbstractDataSource
 
     public function setRsvpsUpdatedAt($eventId)
     {
-        $query = $this->db->prepare('UPDATE events SET rsvps_update_at = NOW() WHERE id = ?');
+        $query = $this->db->prepare('UPDATE events SET rsvps_updated_at = NOW() WHERE id = ?');
         $query->execute([$eventId]);
 
         return $query->rowCount() > 0;
