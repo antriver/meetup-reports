@@ -3,18 +3,20 @@
 require dirname(__DIR__).'/vendor/autoload.php';
 
 $meetup = new \Meetup\Meetup();
-$payments = new \Meetup\MemberPayments($meetup->db);
 
 $memberId = !empty($_POST['memberId']) ? $_POST['memberId'] : null;
 $amount = !empty($_POST['amount']) ? $_POST['amount'] : null;
+$paymentPeriodId = !empty($_POST['paymentPeriodId']) ? (int) $_POST['paymentPeriodId'] : null;
 
-if (!$memberId || !$amount) {
+$paymentPeriod = $meetup->payments->findPaymentPeriod($paymentPeriodId);
+
+if (!$memberId || !$amount || !$paymentPeriod) {
     die();
 }
 
-$payments->addPayment($memberId, $amount);
+$meetup->payments->addPayment($memberId, $amount, $paymentPeriod);
 
-$total = $payments->getTotal($memberId);
+$total = $meetup->payments->getTotal($memberId, $paymentPeriod);
 
 if ($total) {
     $total = number_format($total, 2);

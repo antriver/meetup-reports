@@ -215,38 +215,66 @@ class Reporter
 
     /**
      * Returns the number of yes rsvps there have been for events in the last 6 months.
+     *
+     * @param PaymentPeriod $paymentPeriod
+     *
+     * @return string
      */
-    public function getRecentTotalYesRsvps()
+    public function getTotalYesRsvps(PaymentPeriod $paymentPeriod)
     {
-        $cutoff = date('Y-m-d H:i:s', strtotime('-6 MONTHS'));
+        $params = [];
+        $sql = "SELECT count(*) AS c FROM rsvps r JOIN events e ON e.id = r.`eventId` WHERE r.response = 'yes'";
 
-        $sql = "SELECT count(*) AS c FROM rsvps r JOIN events e ON e.id = r.`eventId` 
-        WHERE e.time >= ? AND r.response = 'yes'";
+        if ($from = $paymentPeriod->getFrom()) {
+            $sql .= " AND e.time >= ?";
+            $params[] = $from->toDateTimeString();
+        }
 
-        $statement = $this->db->prepare($sql);
-        $statement->execute([$cutoff]);
+        if ($to = $paymentPeriod->getTo()) {
+            $sql .= " AND e.time <= ?";
+            $params[] = $from->toDateTimeString();
+        }
 
-        return $statement->fetchColumn();
+        $query = $this->db->prepare($sql);
+        $query->execute($params);
+
+        return $query->fetchColumn();
     }
 
     /**
      * Returns the number of yes rsvps there have been for events in the last 6 months.
+     *
+     * @param PaymentPeriod $paymentPeriod
+     *
+     * @return array
      */
-    public function getMembersRecentYesRsvps()
+    public function getMembersYesRsvps(PaymentPeriod $paymentPeriod)
     {
-        $cutoff = date('Y-m-d H:i:s', strtotime('-6 MONTHS'));
-
+        $params = [];
         $sql = "select m.*, count(*) AS yesRsvps
         from rsvps r 
         join events e on e.id = r.`eventId` 
         join members m on m.id = r.`memberId`
-        where e.time >= '{$cutoff}' and r.response = 'yes' 
+        where r.response = 'yes'";
+
+        if ($from = $paymentPeriod->getFrom()) {
+            $sql .= " AND e.time >= ?";
+            $params[] = $from->toDateTimeString();
+        }
+
+        if ($to = $paymentPeriod->getTo()) {
+            $sql .= " AND e.time <= ?";
+            $params[] = $from->toDateTimeString();
+        }
+
+        $sql .= "
         group by m.id
         order by yesRsvps desc
         limit 50";
 
-        $results = $this->db->query($sql);
+        $query = $this->db->prepare($sql);
+        $query->execute($params);
 
-        return $results->fetchAll();
+        return $query->fetchAll();
     }
 }

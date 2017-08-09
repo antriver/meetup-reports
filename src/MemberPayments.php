@@ -20,22 +20,32 @@ class MemberPayments
         $this->db = $db;
     }
 
-    public function getTotal($memberId)
+    public function getTotal($memberId, PaymentPeriod $paymentPeriod = null)
     {
-        $query = $this->db->prepare('SELECT SUM(amount) FROM member_payments mp WHERE memberId = ?');
-        $query->execute([$memberId]);
+        $params = [$memberId];
+        $sql = 'SELECT SUM(amount) FROM member_payments mp WHERE memberId = ?';
+        if ($paymentPeriod) {
+            $sql .= ' AND paymentPeriodId = ?';
+            $params[] = $paymentPeriod->getId();
+        }
+
+        $query = $this->db->prepare($sql);
+        $query->execute($params);
 
         return $query->fetchColumn();
     }
 
-    public function addPayment($memberId, $amount)
+    public function addPayment($memberId, $amount, PaymentPeriod $paymentPeriod)
     {
-        $query = $this->db->prepare('INSERT INTO member_payments (memberId, amount, paidAt) VALUES (?, ?, ?)');
+        $query = $this->db->prepare(
+            'INSERT INTO member_payments (memberId, amount, paidAt, paymentPeriodId) VALUES (?, ?, ?, ?)'
+        );
         $query->execute(
             [
                 $memberId,
                 $amount,
                 (new Carbon())->toDateTimeString(),
+                $paymentPeriod->getId()
             ]
         );
     }
@@ -51,7 +61,7 @@ class MemberPayments
         $results = [];
 
         foreach ($query->fetchAll() as $result) {
-            $results[] = new PaymentPeriod($result->id, $result->from, $result->to);
+            $results[] = new PaymentPeriod($result->id, $result->from, $result->to, $result->fee);
         }
 
         return $results;
@@ -62,6 +72,10 @@ class MemberPayments
         $query = $this->db->prepare('SELECT * FROM payment_periods WHERE id = ?');
         $query->execute([$id]);
 
-        return $query->fetch();
+        if ($result = $query->fetch()) {
+            return new PaymentPeriod($result->id, $result->from, $result->to, $result->fee);
+        }
+
+        return null;
     }
 }

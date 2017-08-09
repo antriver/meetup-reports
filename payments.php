@@ -2,17 +2,23 @@
 require __DIR__.'/vendor/autoload.php';
 $meetup = new \Meetup\Meetup();
 
-$paymentPeriodId = !empty($_GET['paymentPeriod']) ? (int) $_GET['paymentPeriod'] : null;
+$paymentPeriodId = !empty($_GET['paymentPeriodId']) ? (int) $_GET['paymentPeriodId'] : null;
 
 $members = $meetup->members->all();
 
 include __DIR__.'/includes/header.php';
 
-echo $meetup->paymentPeriodTabs($paymentPeriodId, '/payments.php?paymentPeriod=');
+echo $meetup->paymentPeriodTabs($paymentPeriodId, '/payments.php?paymentPeriodId=');
 
 if ($paymentPeriodId) {
+    $paymentPeriod = $meetup->payments->findPaymentPeriod($paymentPeriodId);
+    if (!$paymentPeriod) {
+        die('Invalid paymentPeriodId');
+    }
     ?>
-
+    <script>
+        var paymentPeriodId = '<?=$paymentPeriod->getId()?>';
+    </script>
     <style type="text/css">
         .add-payment-btn {
             padding: 5px 8px;

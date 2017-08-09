@@ -19,7 +19,8 @@ $(document).on('click', '.add-payment-btn', function (e) {
         '/ajax/add-payment.php',
         {
             memberId: memberId,
-            amount: amount
+            amount: amount,
+            paymentPeriodId: paymentPeriodId
         },
         function (response) {
             if (response.total) {

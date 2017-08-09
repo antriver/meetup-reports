@@ -2,10 +2,10 @@
 /**
  * @var \Meetup\Reporter $reporter
  * @var \Meetup\Meetup $meetup
- * @var \Meetup\MemberPayments $payments
+ * @var \Meetup\PaymentPeriod $paymentPeriod
  */
 
-$fee = $meetup->config['meetupFee'];
+$fee = $paymentPeriod->getFee();
 ?>
 <h2>Suggested Contributions</h2>
 
@@ -13,8 +13,8 @@ $fee = $meetup->config['meetupFee'];
     the last 6 months, each person should pay this much based on how much they RSVPd 'yes'.</p>
 
 <?php
-$totalRecentRsvps = $reporter->getRecentTotalYesRsvps();
-$members = $reporter->getMembersRecentYesRsvps();
+$totalRecentRsvps = $reporter->getTotalYesRsvps($paymentPeriod);
+$members = $reporter->getMembersYesRsvps($paymentPeriod);
 
 $totalRsvpsFromTopUsers = 0;
 foreach ($members as $member) {
@@ -66,7 +66,7 @@ foreach ($members as $member) {
             echo '<td>&pound;'.$memberFee.'</td>';
             $totalFees += $memberFee;
 
-            $actualPaid = $payments->getTotal($member->id);
+            $actualPaid = $meetup->payments->getTotal($member->id, $paymentPeriod);
             $actualClass = $actualPaid >= $memberFee ? 'text-success' : 'text-danger';
             echo '<td class="'.$actualClass.'"><strong>'.($actualPaid ? '&pound;'.$actualPaid : '').'</strong></td>';
 

@@ -7,10 +7,18 @@ use Carbon\Carbon;
 class PaymentPeriod
 {
     /**
+     * @var float
+     */
+    private $fee;
+
+    /**
      * @var Carbon
      */
     private $from;
 
+    /**
+     * @var
+     */
     private $id;
 
     /**
@@ -22,8 +30,9 @@ class PaymentPeriod
      * @param $id
      * @param string $from
      * @param string $to
+     * @param float|null $fee
      */
-    public function __construct($id, $from, $to)
+    public function __construct($id, $from, $to, $fee = null)
     {
         $this->id = $id;
 
@@ -34,6 +43,16 @@ class PaymentPeriod
         if (!empty($to)) {
             $this->to = new Carbon($to);
         }
+
+        $this->fee = $fee;
+    }
+
+    /**
+     * @return float
+     */
+    public function getFee()
+    {
+        return $this->fee;
     }
 
     /**
