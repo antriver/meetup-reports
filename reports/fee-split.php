@@ -5,11 +5,14 @@
  * @var \Meetup\PaymentPeriod $paymentPeriod
  */
 
+$dateFrom = $paymentPeriod->getFrom();
+$dateTo = $paymentPeriod->getTo();
 ?>
 <h2>Suggested Contributions</h2>
 
 <p>If the £<?=$paymentPeriod->getFee()?> Meetup fee were split between the top 50 users of the group in
-    the period, each person should pay this much based on how much they RSVPd 'yes'.</p>
+    the period between <strong><?=$dateFrom ? $dateFrom->format('M jS y') : '')?></strong> and
+    <strong><?=$dateTo ? $dateTo->format('M jS y') : '')?></strong>, each person should pay this much based on how much they RSVPd 'yes'.</p>
 
 <?php
 $totalRecentRsvps = $reporter->getTotalYesRsvps($paymentPeriod);

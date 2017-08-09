@@ -226,7 +226,7 @@ class Reporter
             $sql .= " AND e.time <= ?";
             $params[] = $to->toDateTimeString();
         }
-        
+
         $query = $this->db->prepare($sql);
         $query->execute($params);
 
